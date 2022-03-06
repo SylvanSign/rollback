@@ -36,6 +36,13 @@ func _on_ClientButton_pressed() -> void:
 func _on_network_peer_connected(id: int) -> void:
 	message_label.text = 'connected!'
 	SyncManager.add_peer(id)
+
+	$ServerPlayer.set_network_master(1)
+	if get_tree().is_network_server():
+		$ClientPlayer.set_network_master(id)
+	else:
+		$ClientPlayer.set_network_master(get_tree().get_network_unique_id())
+
 	if get_tree().is_network_server():
 		message_label.text = 'starting...'
 		# give SyncManager some time to gather ping data...
