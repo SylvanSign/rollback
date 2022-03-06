@@ -8,7 +8,7 @@ const input_path_mapping: = {
 const input_path_mapping_reversed: = {}
 
 enum HeaderFlags {
-	HAS_INPUT_VECTOR = 0x01,
+	HAS_INPUT_VECTOR = 1,
 }
 
 func _init() -> void:
@@ -25,7 +25,6 @@ func serialize_input(all_input: Dictionary) -> PoolByteArray:
 	# generic count of rest of keys (besides input hash above)
 	buffer.put_u8(all_input.size() - 1)
 	for path in all_input:
-		print('S ', path)
 		# skip over input hash (see above)
 		if path == '$':
 			continue
@@ -63,7 +62,6 @@ func unserialize_input(serialized: PoolByteArray) -> Dictionary:
 
 	for i in input_count:
 		var path: String = input_path_mapping_reversed[buffer.get_u8()]
-		print('U ', path)
 		var input: = {}
 
 		var header = buffer.get_u8()
