@@ -4,6 +4,7 @@ export(NodePath) onready var connection_panel = get_node(connection_panel) as Pa
 export(NodePath) onready var host_field = get_node(host_field) as LineEdit
 export(NodePath) onready var port_field = get_node(port_field) as LineEdit
 export(NodePath) onready var message_label = get_node(message_label) as Label
+export(NodePath) onready var sync_lost_label = get_node(sync_lost_label) as Label
 
 func _ready() -> void:
 	get_tree().connect('network_peer_connected', self, '_on_network_peer_connected')
@@ -11,6 +12,9 @@ func _ready() -> void:
 	get_tree().connect('server_disconnected', self, '_on_server_disconnected')
 	SyncManager.connect('sync_started', self, '_on_SyncManager_sync_started')
 	SyncManager.connect('sync_stopped', self, '_on_SyncManager_sync_stopped')
+	SyncManager.connect('sync_lost', self, '_on_SyncManager_sync_lost')
+	SyncManager.connect('sync_regained', self, '_on_SyncManager_sync_regained')
+	SyncManager.connect('sync_error', self, '_on_SyncManager_sync_error')
 
 
 func _on_ServerButton_pressed() -> void:
@@ -63,3 +67,22 @@ func _on_SyncManager_sync_started() -> void:
 
 func _on_SyncManager_sync_stopped() -> void:
 	pass
+
+
+func _on_SyncManager_sync_lost() -> void:
+	sync_lost_label.visible = true
+
+
+func _on_SyncManager_sync_regained() -> void:
+	sync_lost_label.visible = false
+
+
+func _on_SyncManager_sync_error(msg: String) -> void:
+	message_label.text = 'fatal sync error: ' + msg
+	sync_lost_label.visible = false
+
+	# todo should this share code with _on_ResetButton_pressed?
+	var peer: = get_tree().network_peer as NetworkedMultiplayerENet
+	if peer:
+		peer.close_connection()
+	SyncManager.clear_peers()

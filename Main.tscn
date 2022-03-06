@@ -8,6 +8,7 @@ connection_panel = NodePath("CanvasLayer/ConnectionPanel")
 host_field = NodePath("CanvasLayer/ConnectionPanel/GridContainer/HostField")
 port_field = NodePath("CanvasLayer/ConnectionPanel/GridContainer/PortField")
 message_label = NodePath("CanvasLayer/MessageLabel")
+sync_lost_label = NodePath("CanvasLayer/SyncLostLabel")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -85,6 +86,14 @@ anchor_bottom = 1.0
 margin_left = -45.0
 margin_top = -20.0
 text = "reset"
+
+[node name="SyncLostLabel" type="Label" parent="CanvasLayer"]
+visible = false
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -40.0
+margin_bottom = 14.0
+text = "regaining sync..."
 
 [connection signal="pressed" from="CanvasLayer/ConnectionPanel/GridContainer/ServerButton" to="." method="_on_ServerButton_pressed"]
 [connection signal="pressed" from="CanvasLayer/ConnectionPanel/GridContainer/ClientButton" to="." method="_on_ClientButton_pressed"]
