@@ -33,7 +33,7 @@ margin_top = 5.0
 margin_right = 100.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
-text = "Host:"
+text = "host:"
 
 [node name="HostField" type="LineEdit" parent="CanvasLayer/ConnectionPanel/GridContainer"]
 margin_left = 104.0
@@ -47,7 +47,7 @@ margin_top = 33.0
 margin_right = 100.0
 margin_bottom = 47.0
 size_flags_horizontal = 3
-text = "Port:"
+text = "port:"
 
 [node name="PortField" type="LineEdit" parent="CanvasLayer/ConnectionPanel/GridContainer"]
 margin_left = 104.0
@@ -62,7 +62,7 @@ margin_top = 56.0
 margin_right = 100.0
 margin_bottom = 76.0
 size_flags_horizontal = 3
-text = "Server"
+text = "server"
 
 [node name="ClientButton" type="Button" parent="CanvasLayer/ConnectionPanel/GridContainer"]
 margin_left = 104.0
@@ -70,12 +70,22 @@ margin_top = 56.0
 margin_right = 204.0
 margin_bottom = 76.0
 size_flags_horizontal = 3
-text = "Client"
+text = "client"
 
 [node name="MessageLabel" type="Label" parent="CanvasLayer"]
 anchor_right = 1.0
 margin_bottom = 14.0
 align = 1
 
+[node name="ResetButton" type="Button" parent="CanvasLayer"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -45.0
+margin_top = -20.0
+text = "reset"
+
 [connection signal="pressed" from="CanvasLayer/ConnectionPanel/GridContainer/ServerButton" to="." method="_on_ServerButton_pressed"]
 [connection signal="pressed" from="CanvasLayer/ConnectionPanel/GridContainer/ClientButton" to="." method="_on_ClientButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/ResetButton" to="." method="_on_ResetButton_pressed"]
