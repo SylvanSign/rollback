@@ -7,6 +7,7 @@ export(NodePath) onready var message_label = get_node(message_label) as Label
 export(NodePath) onready var sync_lost_label = get_node(sync_lost_label) as Label
 
 func _ready() -> void:
+	SyncDebugger.show_debug_overlay(true)
 	get_tree().connect('network_peer_connected', self, '_on_network_peer_connected')
 	get_tree().connect('network_peer_disconnected', self, '_on_network_peer_disconnected')
 	get_tree().connect('server_disconnected', self, '_on_server_disconnected')

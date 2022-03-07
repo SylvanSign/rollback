@@ -38,8 +38,8 @@ func serialize_input(all_input: Dictionary) -> PoolByteArray:
 		var has_input_vector: = input.has('input_vector')
 		if has_input_vector:
 			header |= HeaderFlags.HAS_INPUT_VECTOR
-			if input.has('drop_bomb'):
-				header |= HeaderFlags.DROP_BOMB
+		if input.has('drop_bomb'):
+			header |= HeaderFlags.DROP_BOMB
 
 		buffer.put_u8(header)
 

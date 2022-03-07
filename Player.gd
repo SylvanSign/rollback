@@ -1,6 +1,6 @@
 extends Node2D
 
-export(int) var SPEED = 8
+var speed: = 0.0
 
 const Bomb: = preload('res://Bomb.tscn')
 
@@ -23,7 +23,13 @@ func _predict_remote_input(previous_input: Dictionary, _ticks_since_real_input: 
 
 
 func _network_process(input: Dictionary) -> void:
-	position += input.get('input_vector', Vector2.ZERO) * SPEED
+	var input_vector: Vector2 = input.get('input_vector', Vector2.ZERO)
+	if input_vector != Vector2.ZERO:
+		if speed < 8.0:
+			speed += 0.2
+		position += input_vector * speed
+	else:
+		speed = 0.0
 	if input.has('drop_bomb'):
 		SyncManager.spawn('Bomb', get_parent(), Bomb, { position = global_position })
 
