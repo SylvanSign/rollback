@@ -27,7 +27,7 @@ func refresh_from_log_data() -> void:
 	_rebuild_peer_options(network_arrows_peer1_field)
 	_rebuild_peer_options(network_arrows_peer2_field)
 	_rebuild_peer_time_offset_fields()
-	
+
 	show_network_arrows_field.pressed = data_graph.canvas.show_network_arrows
 	var network_arrow_peers = data_graph.canvas.network_arrow_peers.duplicate()
 	network_arrow_peers.sort()
@@ -35,7 +35,7 @@ func refresh_from_log_data() -> void:
 		network_arrows_peer1_field.select(network_arrows_peer1_field.get_item_index(network_arrow_peers[0]))
 	if network_arrow_peers.size() > 1:
 		network_arrows_peer2_field.select(network_arrows_peer2_field.get_item_index(network_arrow_peers[1]))
-	
+
 	show_rollback_ticks_field.pressed = data_graph.canvas.show_rollback_ticks
 	max_rollback_ticks_field.text = str(data_graph.canvas.max_rollback_ticks)
 
@@ -53,7 +53,7 @@ func _rebuild_peer_time_offset_fields() -> void:
 		child.disconnect("time_offset_changed", self, "_on_peer_time_offset_changed")
 		time_offset_container.remove_child(child)
 		child.queue_free()
-	
+
 	# Re-create new fields and connect the signals.
 	for peer_id in log_data.peer_ids:
 		var child = TimeOffsetSetting.instance()
