@@ -10,6 +10,7 @@ host_field = NodePath("CanvasLayer/ConnectionPanel/GridContainer/HostField")
 port_field = NodePath("CanvasLayer/ConnectionPanel/GridContainer/PortField")
 message_label = NodePath("CanvasLayer/MessageLabel")
 sync_lost_label = NodePath("CanvasLayer/SyncLostLabel")
+reset_button = NodePath("CanvasLayer/ResetButton")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

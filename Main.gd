@@ -5,6 +5,11 @@ export(NodePath) onready var host_field = get_node(host_field) as LineEdit
 export(NodePath) onready var port_field = get_node(port_field) as LineEdit
 export(NodePath) onready var message_label = get_node(message_label) as Label
 export(NodePath) onready var sync_lost_label = get_node(sync_lost_label) as Label
+export(NodePath) onready var reset_button = get_node(reset_button) as Button
+
+const LOG_FILE_DIRECTORY: = 'user://detailed_logs'
+
+export var logging_enabled: = false
 
 func _ready() -> void:
 	SyncDebugger.show_debug_overlay(true)
@@ -72,9 +77,29 @@ func _on_ResetButton_pressed() -> void:
 func _on_SyncManager_sync_started() -> void:
 	message_label.text = 'started!'
 
+	if logging_enabled and not SyncReplay.active:
+		var dir: = Directory.new()
+		if not dir.dir_exists(LOG_FILE_DIRECTORY):
+			dir.make_dir(LOG_FILE_DIRECTORY)
+
+		var datetime: = OS.get_datetime(true)
+		var log_file_name: = '%04d%02d%02d-%02d%02d%02d-peer-%d.log' % [
+			datetime['year'],
+			datetime['month'],
+			datetime['day'],
+			datetime['hour'],
+			datetime['minute'],
+			datetime['second'],
+			get_tree().get_network_unique_id(),
+		]
+
+		SyncManager.start_logging(LOG_FILE_DIRECTORY.plus_file(log_file_name))
+
+
 
 func _on_SyncManager_sync_stopped() -> void:
-	pass
+	if logging_enabled:
+		SyncManager.stop_logging()
 
 
 func _on_SyncManager_sync_lost() -> void:
@@ -94,3 +119,8 @@ func _on_SyncManager_sync_error(msg: String) -> void:
 	if peer:
 		peer.close_connection()
 	SyncManager.clear_peers()
+
+
+func setup_match_for_replay(id: int, ids: Array, match_info: Dictionary) -> void:
+	connection_panel.visible = false
+	reset_button.visible = false
